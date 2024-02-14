@@ -1,0 +1,15 @@
+version: '1.0'
+services:
+  microservice-prices:
+    image: microservice-prices:v1
+    container_name: microservice-prices
+    expose: 
+      - '8095'
+    ports:
+      - '8095:8095'
+    restart: always
+    networks:
+      - networkcloud
+networks:
+  networkcloud:
+    driver: "bridge"
