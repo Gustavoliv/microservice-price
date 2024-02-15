@@ -2,7 +2,15 @@
 
 ## Introduction
 
+The project consists of building a microservice using Spring Boot that provides a REST endpoint to query product prices in an e-commerce system. Price information is stored in a table called PRICES in an in-memory database H2.
+
 The Spring Boot project has been implemented with hexagonal architecture, OpenAPI and Database H2.
+
+It has been decided to apply the hexagonal architecture in this project to separate the business logic from the implementation details, to facilitate the modification and maintenance of the application, because currently the project is implemented on the H2 database and you can easily adapt the code if you decide to change the database.
+
+Another advantage of the hexagonal architecture is that the internal layers that contain the business logic are independent of the framework, which makes it easier to adapt to a new framework.
+
+And with the hexagonal architecture, performing unit tests is considerably simplified.
 
 ## Prices Table (PRICES)
 
