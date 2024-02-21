@@ -1,9 +1,9 @@
 package com.inditex.ecommerce.prices.infraestructure.rest.controller.impl;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,8 +45,8 @@ public class PriceControllerImpl implements PriceController{
             .build();
 
         log.info("Price: PriceController.getPricesForCondition  date: {}, productId: {}, brandId: {}", date, productId, brandId);
-        Optional<PriceDTO> prices = priceService.getPriceByBrandProductDate(priceRequest);
+        PriceDTO prices = priceService.getPriceByBrandProductDate(priceRequest);
 
-        return prices.map(ResponseEntity.ok()::body).orElse(ResponseEntity.notFound().build());
+        return new ResponseEntity<>(prices, HttpStatus.OK);
     }
 }

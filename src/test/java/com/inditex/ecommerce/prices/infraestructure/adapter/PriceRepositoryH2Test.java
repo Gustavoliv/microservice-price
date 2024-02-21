@@ -10,8 +10,6 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.inditex.ecommerce.prices.domain.model.Brand;
 import com.inditex.ecommerce.prices.domain.model.Price;
@@ -19,7 +17,6 @@ import com.inditex.ecommerce.prices.domain.model.Product;
 import com.inditex.ecommerce.prices.infraestructure.entity.PriceEntity;
 import com.inditex.ecommerce.prices.infraestructure.rest.mapper.PriceMapper;
 
-@ExtendWith(MockitoExtension.class)
 class PriceRepositoryH2Test {
         
         private PriceRepository priceRepository;
@@ -67,8 +64,8 @@ class PriceRepositoryH2Test {
 
                 when(priceMapper.toPrice(expectedPriceEntity)).thenReturn(expectedPrice);
 
-                Optional<Price> result = priceRepositoryH2.getPriceByBrandProductDate(searchPrice);
+                Price result = priceRepositoryH2.getPriceByBrandProductDate(searchPrice);
 
-                assertEquals(expectedPrice, result.get());
+                assertEquals(expectedPrice, result);
         }
 }
