@@ -9,9 +9,6 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import com.inditex.ecommerce.prices.application.mapper.PriceDtoMapper;
 import com.inditex.ecommerce.prices.domain.model.Brand;
@@ -22,18 +19,15 @@ import com.inditex.ecommerce.prices.domain.port.in.PriceDomainRepository;
 
 class PriceServiceImplTest {
     
-    @Mock
     private PriceDomainRepository priceDomainRepository;
-    
-    @Mock
     private PriceDtoMapper priceDtoMapper;
-    
-    @InjectMocks
     private PriceServiceImpl priceService;
     
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
+        priceDomainRepository = mock(PriceDomainRepository.class);
+        priceDtoMapper = mock(PriceDtoMapper.class);
+        priceService = new PriceServiceImpl(priceDomainRepository, priceDtoMapper);
     }
 
     @Test
@@ -72,4 +66,3 @@ class PriceServiceImplTest {
         verify(priceDtoMapper, times(1)).toPriceDto(returnPrice);
     }
 }
-    

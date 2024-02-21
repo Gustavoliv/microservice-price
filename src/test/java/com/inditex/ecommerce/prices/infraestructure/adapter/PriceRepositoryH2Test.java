@@ -61,7 +61,8 @@ class PriceRepositoryH2Test {
 
                 when(priceRepository.findFirstByStartDateBeforeAndEndDateAfterAndBrandIdAndProductIdOrderByPriorityDesc(
                         searchPrice.getStartDate(), searchPrice.getEndDate(), searchPrice.getBrand().getBrandId(),
-                        searchPrice.getProduct().getProductId())).thenReturn(Optional.of(expectedPriceEntity));
+                        searchPrice.getProduct().getProductId()))
+                        .thenReturn(Optional.of(expectedPriceEntity));
 
                 when(priceMapper.toPrice(expectedPriceEntity)).thenReturn(expectedPrice);
 
@@ -82,7 +83,8 @@ class PriceRepositoryH2Test {
 
                 when(priceRepository.findFirstByStartDateBeforeAndEndDateAfterAndBrandIdAndProductIdOrderByPriorityDesc(
                         searchPrice.getStartDate(), searchPrice.getEndDate(), searchPrice.getBrand().getBrandId(),
-                        searchPrice.getProduct().getProductId())).thenReturn(Optional.empty());
+                        searchPrice.getProduct().getProductId()))
+                        .thenReturn(Optional.empty());
 
                 assertThrows(NotFoundException.class, () -> {
                         priceRepositoryH2.getPriceByBrandProductDate(searchPrice);
