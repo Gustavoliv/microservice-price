@@ -1,7 +1,5 @@
 package com.inditex.ecommerce.prices.application.service;
 
-import java.util.Optional;
-
 import com.inditex.ecommerce.prices.application.mapper.PriceDtoMapper;
 import com.inditex.ecommerce.prices.domain.model.Price;
 import com.inditex.ecommerce.prices.domain.model.dto.PriceDTO;
@@ -18,10 +16,8 @@ public class PriceServiceImpl implements PriceService{
     }
 
     @Override
-    public Optional<PriceDTO> getPriceByBrandProductDate(Price priceSearch) {
-
-        Optional<Price> price = this.priceDomainRepository.getPriceByBrandProductDate(priceSearch);
-
-        return price.map(this.priceDtoMapper::toPriceDto);
+    public PriceDTO getPriceByBrandProductDate(Price priceSearch) {
+        Price price = this.priceDomainRepository.getPriceByBrandProductDate(priceSearch);
+        return this.priceDtoMapper.toPriceDto(price);
     }
 }
