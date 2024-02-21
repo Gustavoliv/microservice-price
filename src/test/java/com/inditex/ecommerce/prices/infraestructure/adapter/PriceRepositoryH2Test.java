@@ -15,6 +15,7 @@ import com.inditex.ecommerce.prices.domain.model.Brand;
 import com.inditex.ecommerce.prices.domain.model.Price;
 import com.inditex.ecommerce.prices.domain.model.Product;
 import com.inditex.ecommerce.prices.infraestructure.entity.PriceEntity;
+import com.inditex.ecommerce.prices.infraestructure.exception.NotFoundException;
 import com.inditex.ecommerce.prices.infraestructure.rest.mapper.PriceMapper;
 
 class PriceRepositoryH2Test {
@@ -67,5 +68,24 @@ class PriceRepositoryH2Test {
                 Price result = priceRepositoryH2.getPriceByBrandProductDate(searchPrice);
 
                 assertEquals(expectedPrice, result);
+        }
+
+        @Test
+        void testGetPriceByBrandProductDate_NotFound() {
+                
+                Price searchPrice = Price.builder()
+                        .startDate(LocalDateTime.of(2020, 6, 14, 10, 0, 0))
+                        .endDate(LocalDateTime.of(2020, 6, 14, 10, 0,0))
+                        .brand(new Brand(1))
+                        .product(new Product(35455L))
+                        .build();
+
+                when(priceRepository.findFirstByStartDateBeforeAndEndDateAfterAndBrandIdAndProductIdOrderByPriorityDesc(
+                        searchPrice.getStartDate(), searchPrice.getEndDate(), searchPrice.getBrand().getBrandId(),
+                        searchPrice.getProduct().getProductId())).thenReturn(Optional.empty());
+
+                assertThrows(NotFoundException.class, () -> {
+                        priceRepositoryH2.getPriceByBrandProductDate(searchPrice);
+                });
         }
 }
