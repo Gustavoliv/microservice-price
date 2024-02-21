@@ -33,7 +33,7 @@ class PriceRepositoryH2Test {
 
         @Test
         void testGetPriceByBrandProductDate() {
-
+                
                 Price searchPrice = Price.builder()
                         .startDate(LocalDateTime.of(2020, 6, 14, 10, 0, 0))
                         .endDate(LocalDateTime.of(2020, 6, 14, 10, 0,0))
@@ -69,6 +69,10 @@ class PriceRepositoryH2Test {
                 Price result = priceRepositoryH2.getPriceByBrandProductDate(searchPrice);
 
                 assertEquals(expectedPrice, result);
+                verify(priceRepository, times(1)).findFirstByStartDateBeforeAndEndDateAfterAndBrandIdAndProductIdOrderByPriorityDesc(
+                                searchPrice.getStartDate(), searchPrice.getEndDate(), searchPrice.getBrand().getBrandId(),
+                                searchPrice.getProduct().getProductId());
+                verify(priceMapper, times(1)).toPrice(expectedPriceEntity);
         }
 
         @Test
@@ -89,5 +93,9 @@ class PriceRepositoryH2Test {
                 assertThrows(NotFoundException.class, () -> {
                         priceRepositoryH2.getPriceByBrandProductDate(searchPrice);
                 });
+
+                verify(priceRepository, times(1)).findFirstByStartDateBeforeAndEndDateAfterAndBrandIdAndProductIdOrderByPriorityDesc(
+                        searchPrice.getStartDate(), searchPrice.getEndDate(), searchPrice.getBrand().getBrandId(),
+                        searchPrice.getProduct().getProductId());
         }
 }

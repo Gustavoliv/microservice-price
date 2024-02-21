@@ -46,7 +46,8 @@ class PriceRepositoryTest {
 
         when(priceRepositoryMock.findFirstByStartDateBeforeAndEndDateAfterAndBrandIdAndProductIdOrderByPriorityDesc(
                 searchPrice.getStartDate(), searchPrice.getEndDate(), searchPrice.getBrand().getBrandId(),
-                searchPrice.getProduct().getProductId())).thenReturn(Optional.of(expectedPriceEntity));
+                searchPrice.getProduct().getProductId()))
+                .thenReturn(Optional.of(expectedPriceEntity));
 
         Optional<PriceEntity> result = priceRepositoryMock
                 .findFirstByStartDateBeforeAndEndDateAfterAndBrandIdAndProductIdOrderByPriorityDesc(
@@ -55,6 +56,10 @@ class PriceRepositoryTest {
                 );
 
         assertEquals(expectedPriceEntity, result.get());
+
+        verify(priceRepositoryMock, times(1)).findFirstByStartDateBeforeAndEndDateAfterAndBrandIdAndProductIdOrderByPriorityDesc(
+                        searchPrice.getStartDate(), searchPrice.getEndDate(), searchPrice.getBrand().getBrandId(),
+                        searchPrice.getProduct().getProductId());
     }
 }
     

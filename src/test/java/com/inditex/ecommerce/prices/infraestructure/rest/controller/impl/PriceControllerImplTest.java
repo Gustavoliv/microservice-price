@@ -204,6 +204,7 @@ class PriceControllerImplTest {
         assertEquals(resultPriceDTO, expectedPriceDto);
     }
 
+    @SuppressWarnings("null")
     @Test
     void endpointPrice_whenNotExist_shouldReturnNotFound() throws Exception{
 
@@ -219,6 +220,7 @@ class PriceControllerImplTest {
                                 .andReturn();
     }
 
+    @SuppressWarnings("null")
     @Test
     void endpointPrice_whenParameterIncorrect_shouldReturnBadRequest() throws Exception{
 
