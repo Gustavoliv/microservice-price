@@ -1,39 +1,62 @@
 package com.inditex.ecommerce.prices.infraestructure.adapter;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.inditex.ecommerce.prices.domain.model.Brand;
+import com.inditex.ecommerce.prices.domain.model.Price;
+import com.inditex.ecommerce.prices.domain.model.Product;
 import com.inditex.ecommerce.prices.infraestructure.entity.PriceEntity;
 
+@ExtendWith(MockitoExtension.class)
 class PriceRepositoryTest {
 
+    PriceRepository priceRepositoryMock;
+
+    @BeforeEach
+    void setUp() {
+        priceRepositoryMock = mock(PriceRepository.class);
+    }
+
     @Test
-    void test() {
+    void testGetPriceByBrandProductDate() {
         
-        PriceEntity expectedPriceEntity = new PriceEntity();
-        LocalDateTime currentDateStart = LocalDateTime.now().minusHours(1);
-        LocalDateTime currentDateEnd = LocalDateTime.now().plusHours(1);
-        int brandId = 1;
-        Long productId = 123L;
+        Price searchPrice = Price.builder()
+                .startDate(LocalDateTime.of(2020, 6, 14, 10, 0, 0))
+                .endDate(LocalDateTime.of(2020, 6, 14, 10, 0,0))
+                .brand(new Brand(1))
+                .product(new Product(35455L))
+                .build();
+    
+        PriceEntity expectedPriceEntity = PriceEntity.builder()
+                .brandId(1)
+                .productId(35455L)
+                .startDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0))
+                .endDate(LocalDateTime.of(2020, 12, 31, 23, 59,59))
+                .priceList(1L)
+                .price(BigDecimal.valueOf(35.50).setScale(2, RoundingMode.HALF_UP))
+                .build();
 
-        // Mock del repositorio
-        PriceRepository priceRepositoryMock = mock(PriceRepository.class);
         when(priceRepositoryMock.findFirstByStartDateBeforeAndEndDateAfterAndBrandIdAndProductIdOrderByPriorityDesc(
-                any(LocalDateTime.class), any(LocalDateTime.class), any(int.class), any(Long.class)))
-                .thenReturn(Optional.of(expectedPriceEntity));
+                searchPrice.getStartDate(), searchPrice.getEndDate(), searchPrice.getBrand().getBrandId(),
+                searchPrice.getProduct().getProductId())).thenReturn(Optional.of(expectedPriceEntity));
 
-        // Act
         Optional<PriceEntity> result = priceRepositoryMock
-                .findFirstByStartDateBeforeAndEndDateAfterAndBrandIdAndProductIdOrderByPriorityDesc(currentDateStart,
-                        currentDateEnd, brandId, productId);
+                .findFirstByStartDateBeforeAndEndDateAfterAndBrandIdAndProductIdOrderByPriorityDesc(
+                    searchPrice.getStartDate(), searchPrice.getEndDate(), searchPrice.getBrand().getBrandId(),
+                    searchPrice.getProduct().getProductId()
+                );
 
-        // Assert
         assertEquals(expectedPriceEntity, result.get());
     }
 }
