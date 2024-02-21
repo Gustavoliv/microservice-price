@@ -14,7 +14,7 @@ public interface PriceDtoMapper {
     @Mapping(source = "endDate", target = "endDate")
     @Mapping(source = "priceList", target = "priceList")
     @Mapping(source = "product.productId", target = "productId")
-    @Mapping(source = "price", target = "price")
+    @Mapping(source = "priceValue", target = "price")
     PriceDTO toPriceDto(Price price);
 }
 

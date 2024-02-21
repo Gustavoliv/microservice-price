@@ -16,6 +16,6 @@ public class Price {
     private Long priceList;
     private Product product;
     private Integer priority;
-    private BigDecimal price;
+    private BigDecimal priceValue;
     private String curr;
 }
