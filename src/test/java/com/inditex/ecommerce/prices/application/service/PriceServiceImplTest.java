@@ -19,7 +19,7 @@ import com.inditex.ecommerce.prices.domain.model.dto.PriceDTO;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class PriceServiceImplTest {
+class PriceServiceImplTest {
 
     @Autowired
     private PriceServiceImpl priceService;
